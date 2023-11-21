@@ -1,20 +1,21 @@
 <template>
   <div class="header">
     <ul class="header-button-left">
-      <li>Cancel</li>
+      <li @click="step--">Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="step == 1" @click="step++">Next</li>
+      <li v-if="step == 2" @click="publish">Post</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :postdata="postdata" :step="step" />
+  <Container :postdata="postdata" :step="step" :uploadImage="uploadImage" @write="uploadContent = $event"/>
   <button class="load-more-button" @click="more">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
@@ -39,8 +40,10 @@ export default {
     return {
       postdata: postdata,
       morepostcnt: 0,
-      step : 0,
-      // selectedTap: 0,
+      step: 0,
+      uploadImage: "",
+      uploadContent : ''
+      // selectedTap:, 0,
     };
   },
   components: {
@@ -54,6 +57,26 @@ export default {
           this.postdata.push(morebtn.data);
           this.morepostcnt++;
         });
+    },
+    upload(e) {
+      let uploadFile = e.target.files;
+      let uploadFileURL = URL.createObjectURL(uploadFile[0]);
+      this.step++;
+      this.uploadImage = uploadFileURL;
+    },
+    publish() {
+      var newPost = {
+        name: "Kim Hyun",
+        userImage: "https://picsum.photos/100?random=10",
+        postImage: this.uploadImage,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.uploadContent,
+        filter: "perpetua",
+      };
+      this.postdata.unshift(newPost);
+      this.step = 0;
     },
   },
 };
