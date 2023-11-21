@@ -42,7 +42,7 @@ export default {
       morepostcnt: 0,
       step: 0,
       uploadImage: "",
-      uploadContent : ''
+      uploadContent : "",
       // selectedTap:, 0,
     };
   },
