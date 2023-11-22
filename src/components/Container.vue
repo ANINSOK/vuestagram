@@ -2,15 +2,17 @@
   <div>
     <div v-if="step == 0">
     <!-- postdata 배열의 각 요소에 대해 반복하여 Post 컴포넌트를 생성합니다 -->
-    <Post v-for="post in postdata" :key="post.id" :postdata="post" />
+    <!-- <Post v-for="post in postdata" :key="post.id" :postdata="post" /> -->
+    <Post v-for="(post, i) in $store.state.postdata" :key="post.id" :postdata="$store.state.postdata[i]" />
+
     </div>
 
     <!-- 필터선택페이지 -->
     <div v-if="step == 1">
-    <div class="upload-image" :style="`background-image: url(${uploadImage})`"></div>
+    <div :class="selectedFilter + ' upload-image'" :style="`background-image: url(${uploadImage})`"></div>
     <div class="filters">
       
-      <FilterBox :filterName="filterName"  :uploadImage="uploadImage" v-for="filterName in imageFilters" :key="filterName" >
+      <FilterBox :filterName="filterName" :uploadImage="uploadImage" v-for="filterName in imageFilters" :key="filterName" >
         {{ filterName }}
       </FilterBox>
     </div>
@@ -18,7 +20,7 @@
 
     <!-- 글작성페이지 -->
     <div v-if="step == 2">
-    <div class="upload-image" :style="`background-image: url(${uploadImage})`"></div>
+    <div :class="selectedFilter + ' upload-image'" :style="`background-image: url(${uploadImage})`"></div>
     <div class="write">
       <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea> 
     </div>
@@ -34,9 +36,15 @@ export default {
   data() {
     return {
       imageFilters : [ "aden", "_1977", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson", 
-"inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", 
-"reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"]
+      "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", 
+      "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"],
+      selectedFilter:'',
     }
+  },
+  mounted() {
+      this.emitter.on('filterSelect', (a)=>{
+        this.selectedFilter = a
+      })
   },
   components: {
     Post,
@@ -47,6 +55,7 @@ export default {
     step : Number,
     uploadImage : String,
   },
+
 };
 </script>
 

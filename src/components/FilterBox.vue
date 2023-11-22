@@ -1,13 +1,17 @@
 <template>
-  <div :class="filterName + ' filter-item'" :style="`background-image:url(${uploadImage})`">
+  <div @click="setFilter" :class="filterName + ' filter-item'" :style="`background-image:url(${uploadImage})`">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-    
   name: "filterbox",
+  methods : {
+    setFilter(){
+      this.emitter.emit('filterSelect', this.filterName)
+    }
+  },
   props: {
     uploadImage: String,
     filterName: String,

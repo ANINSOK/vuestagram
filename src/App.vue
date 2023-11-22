@@ -2,7 +2,7 @@
   <div class="header">
     <ul class="header-button-left">
       <li @click="step--">Cancel</li>
-    </ul>
+    </ul>0
     <ul class="header-button-right">
       <li v-if="step == 1" @click="step++">Next</li>
       <li v-if="step == 2" @click="publish">Post</li>
@@ -11,7 +11,7 @@
   </div>
 
   <Container :postdata="postdata" :step="step" :uploadImage="uploadImage" @write="uploadContent = $event"/>
-  <button class="load-more-button" @click="more">더보기</button>
+  <button v-if="step == 0" class="load-more-button" @click="more">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
@@ -20,21 +20,15 @@
     </ul>
   </div>
 
-  <!-- <div v-if="selectedTap == 0">내용0</div>
-  <div v-if="selectedTap == 1">내용1</div>
-  <div v-if="selectedTap == 2">내용2</div>
-
-  <button @click="selectedTap= 0">버튼0</button>
-  <button @click="selectedTap= 1">버튼1</button>
-  <button @click="selectedTap= 2">버튼2</button> -->
 </template>
 
 <script>
 import Container from "./components/Container.vue";
 import postdata from "./assets/postdata.js";
-import axios from "axios";
+
 
 export default {
+
   name: "App",
   data() {
     return {
@@ -43,15 +37,20 @@ export default {
       step: 0,
       uploadImage: "",
       uploadContent : "",
-      // selectedTap:, 0,
+      selectedFilter : ""
     };
+  },
+  mounted() {
+    this.emitter.on('filterSelect', (a)=>{
+      this.selectedFilter = a
+    })
   },
   components: {
     Container,
   },
   methods: {
     more() {
-      axios
+      this.axios
         .get(`https://codingapple1.github.io/vue/more${this.morepostcnt}.json`)
         .then((morebtn) => {
           this.postdata.push(morebtn.data);
@@ -73,11 +72,12 @@ export default {
         date: "May 15",
         liked: false,
         content: this.uploadContent,
-        filter: "perpetua",
+        filter: this.selectedFilter,
       };
       this.postdata.unshift(newPost);
       this.step = 0;
     },
+
   },
 };
 </script>

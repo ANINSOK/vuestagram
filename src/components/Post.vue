@@ -4,7 +4,7 @@
       <div class="profile"></div>
       <span class="profile-name">{{ postdata.name }}</span>
     </div>
-    <div class="post-body" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
+    <div @click="pushLikes" class="post-body" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
     <div class="post-content">
       <p>{{ postdata.likes }} Likes</p>
       <p><strong>{{ postdata.name }}</strong> {{ postdata.content }}</p>
@@ -17,7 +17,12 @@
 export default {
   props : {
     postdata : Object
-  }
+  },
+  methods: {
+    pushLikes() {
+      this.$store.commit('pushLikes', this.postdata.id);
+    },
+  },
 };
 </script>
 
