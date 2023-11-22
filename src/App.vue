@@ -2,30 +2,34 @@
   <div class="header">
     <ul class="header-button-left">
       <li @click="step--">Cancel</li>
-    </ul>0
+    </ul>
     <ul class="header-button-right">
       <li v-if="step == 1" @click="step++">Next</li>
       <li v-if="step == 2" @click="publish">Post</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
+
+    
   </div>
 
   <Container :postdata="postdata" :step="step" :uploadImage="uploadImage" @write="uploadContent = $event"/>
-  <button v-if="step == 0" class="load-more-button" @click="more">더보기</button>
-
+  <!-- <button v-if="step == 0" class="load-more-button" @click="more">더보기</button> -->
+  <!-- <button @click="$store.dispatch('getData')">더보기</button> -->
+  
   <div class="footer">
     <ul class="footer-button-plus">
       <input @change="upload" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
+  
 
 </template>
 
 <script>
 import Container from "./components/Container.vue";
 import postdata from "./assets/postdata.js";
-
+// import {mapState} from 'vuex'
 
 export default {
 
@@ -84,4 +88,17 @@ export default {
 
 <style>
 @import "style.css";
+
+.heart-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background-image: url('https://w7.pngwing.com/pngs/247/596/png-transparent-pink-heart-art-love-computer-icons-heart-symbol-emoji-heart-tree-text-heart-smiley.png'); /* Add your heart image path */
+  background-size: cover;
+  visibility: hidden;
+  animation: scaleOut 0.2s ease-out forwards;
+}
 </style>

@@ -4,7 +4,7 @@
       <div class="profile"></div>
       <span class="profile-name">{{ postdata.name }}</span>
     </div>
-    <div @click="pushLikes" class="post-body" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
+    <div :class="postdata.filter" @dblclick="pushLikes" class="post-body" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
     <div class="post-content">
       <p>{{ postdata.likes }} Likes</p>
       <p><strong>{{ postdata.name }}</strong> {{ postdata.content }}</p>
