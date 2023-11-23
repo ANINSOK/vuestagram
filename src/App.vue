@@ -38,7 +38,7 @@ export default {
     return {
       postdata: postdata,
       morepostcnt: 0,
-      step: 0,
+      step: 3,
       uploadImage: "",
       uploadContent : "",
       selectedFilter : ""
